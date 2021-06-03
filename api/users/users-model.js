@@ -13,10 +13,11 @@ function get() {
   return db('users');
 }
 
-function getById(id) {
-  return db('users')
+async function getById(id) {
+  const user = await db('users')
     .where({ id })
-    .first();
+    .first()
+    return user
 }
 
 function getUserPosts(userId) {
@@ -26,8 +27,8 @@ function getUserPosts(userId) {
     .where('p.user_id', userId);
 }
 
-function insert(user) {
-  return db('users')
+async function insert(user) {
+   await db('users')
     .insert(user)
     .then(ids => {
       return getById(ids[0]);
