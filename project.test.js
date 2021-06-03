@@ -17,13 +17,13 @@ afterAll(async (done) => {
   done();
 });
 
-it.only("sanity check", () => {
+it("sanity check", () => {
   expect(true).not.toBe(false);
 });
 
 describe("server.js", () => {
   describe("1 [GET] /api/users", () => {
-    it.only("can get the correct number of users", async () => {
+    it("can get the correct number of users", async () => {
       let res = await request(server).get("/api/users");
       expect(res.body).toHaveLength(initialUsers.length);
     }, 500);
@@ -80,7 +80,9 @@ describe("server.js", () => {
   });
   describe("4 [PUT] /api/users/:id", () => {
     it("writes the updates in the database", async () => {
-      await request(server).put("/api/users/1").send({ name: "FRODO BAGGINS" });
+      await request(server)
+        .put("/api/users/1")
+        .send({ id: 1, name: "FRODO BAGGINS" });
       let users = await db("users");
       expect(users[0]).toMatchObject({ id: 1, name: "FRODO BAGGINS" });
     });
@@ -127,6 +129,7 @@ describe("server.js", () => {
   describe("6 [GET] /api/users/:id/posts", () => {
     it("gets the correct number of user posts", async () => {
       const res = await request(server).get("/api/users/1/posts");
+      console.log(res.body,initialPosts.filter((p) => p.user_id == 1).length);
       expect(res.body).toHaveLength(
         initialPosts.filter((p) => p.user_id == 1).length
       );

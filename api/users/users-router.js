@@ -15,6 +15,7 @@ router.get("/", logger, (req, res, next) => {
 });
 
 router.get("/:id", logger, validateUserId, (req, res) => {
+console.log("GETwID",req.user)
   res.json(req.user);
 
   // RETURN THE USER OBJECT
